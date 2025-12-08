@@ -1,0 +1,8 @@
+{
+  "name": "Copy of Copy of Smart Agri AI Assistant",
+  "description": "AI-powered assistant for farmers to detect plant diseases and get treatment recommendations.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
