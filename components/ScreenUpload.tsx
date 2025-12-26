@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import { Camera, Upload, Image as ImageIcon, X, AlertCircle } from 'lucide-react';
 
@@ -11,13 +12,21 @@ export const ScreenUpload: React.FC<ScreenUploadProps> = ({ onImageSelected }) =
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const clearInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleFile = (file: File) => {
     if (!file) return;
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setError("Please upload a valid image file (e.g., JPEG, PNG).");
+      const fileType = file.type || 'unknown type';
+      setError(`Unsupported file type: "${fileType}". Please upload a valid image file (e.g., JPEG, PNG).`);
       setPreview(null);
+      clearInput(); // Clear the input after error
       return;
     }
 
@@ -73,8 +82,8 @@ export const ScreenUpload: React.FC<ScreenUploadProps> = ({ onImageSelected }) =
       </div>
 
       {error && (
-        <div className="flex items-center space-x-2 text-red-600 bg-red-50 px-4 py-3 rounded-xl w-full max-w-sm animate-pulse">
-          <AlertCircle size={20} />
+        <div className="flex items-start space-x-2 text-red-600 bg-red-50 px-4 py-3 rounded-xl w-full max-w-sm border border-red-100">
+          <AlertCircle size={20} className="shrink-0 mt-0.5" />
           <p className="text-sm font-medium">{error}</p>
         </div>
       )}
@@ -112,7 +121,7 @@ export const ScreenUpload: React.FC<ScreenUploadProps> = ({ onImageSelected }) =
               onClick={() => {
                 setPreview(null);
                 setError(null);
-                if (fileInputRef.current) fileInputRef.current.value = '';
+                clearInput();
               }}
               className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition"
             >

@@ -1,14 +1,15 @@
 import React from 'react';
 import { AppScreen } from '../types';
-import { Sprout, History, Camera } from 'lucide-react';
+import { Sprout, History, Camera, LogOut } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
   currentScreen: AppScreen;
   onNavigate: (screen: AppScreen) => void;
+  onLogout: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentScreen, onNavigate }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, currentScreen, onNavigate, onLogout }) => {
   const NavButton = ({ screen, icon: Icon, label }: { screen: AppScreen; icon: any; label: string }) => {
     const isActive = currentScreen === screen;
     return (
@@ -27,11 +28,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentScreen, onNavig
   return (
     <div className="flex flex-col h-full bg-slate-50 max-w-md mx-auto shadow-2xl overflow-hidden relative border-x border-slate-200">
       {/* Header */}
-      <header className="bg-emerald-600 text-white p-4 shadow-md z-10 shrink-0">
+      <header className="bg-emerald-600 text-white p-4 shadow-md z-10 shrink-0 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Sprout size={28} />
           <h1 className="text-xl font-bold tracking-tight">Smart Agri Assistant</h1>
         </div>
+        <button 
+          onClick={onLogout}
+          className="p-1.5 rounded-lg hover:bg-emerald-700 transition-colors"
+          title="Logout"
+        >
+          <LogOut size={20} />
+        </button>
       </header>
 
       {/* Main Content Area */}
